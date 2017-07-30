@@ -53,11 +53,11 @@
     <option value="Hammett"> Hammett </option>
     <option value="Hetfield"> Hetfield </option>
     </select>
-      
 
-      <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
-      <input id="submit_form" type="submit" value="Submit">
-</h5>
+
+        <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
+        <input id="submit_form" type="submit" value="Submit">
+      </h5>
     </div>
 
     <div class="container">
@@ -65,10 +65,11 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Date</th>
+              <th>Date </th>
               <th>Course</th>
               <th>Location</th>
               <th>Instructor</th>
+              <th>Delete / Edit</th>
             </tr>
           </thead>
         </table>
@@ -83,120 +84,123 @@
 
     <footer class="footer">
       <div class="container">
+
       </div>
     </footer>
-</div>
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="jquery.datetimepicker.js"></script>
-    <script>
-      $(document).ready(function () {
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="jquery.datetimepicker.js"></script>
+  <script>
+    $(document).ready(function () {
 
 
-        $('#submit_form').click(function () {
-          var data = {};
-          data.date = $('#datetimepicker').val();
-          data.course = $('#course').val();
-          data.location = $('#location').val();
-          data.courseDirector = $('#courseDirector').val();
-          data.assist1 = $('#assist1').val();
-          data.assist2 = $('#assist2').val();
-          data.assist3 = $('#assist3').val();
-          data.user = $('#loggedInAs').val();
-          console.log(data);
-          $.ajax({
-            type: 'post',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            url: '/course'
-          })
-          getCourses();
-        }) //END OF SUBMITFORMCLICK
-
-
-        function getCourses() {
-          $.getJSON('/course', function (docs) {
-            $('.calendar').html('');
-            $.each(docs, function (key, value) {
-              var location = value.location;
-              var course = value.course;
-              var courseDirector = value.courseDirector;
-              var date = value.date;
-              var assist1 = value.assist1;
-              var assist2 = value.assist2;
-              var assist3 = value.assist3;
-              var user = value.user;
-              if (user === $('#loggedInAs').val()) {
-                var editable =
-                  '<span role="button" class="del"><span class="glyphicon glyphicon-trash"></span></span>  <span role="button" class="update"><span class="glyphicon glyphicon-pencil"></span></span>'
-              } else {
-                var editable = 'POSTED BY OTHER USER'
-              }
-
-              
-
-              $('.calendar').prepend('<div id="' + value._id + '"><span class="date"> ' + date +
-                '</span> <span class="course"><span class="tab-space"></span> ' + course +
-                '</span> <span class="tab-space"></span>' + location +
-                ' <span class="tab-space"></span> ' +
-                courseDirector + '<span class="tab-space"></span> ' + '<span class="tab-space"></span>' +
-                editable + '</div><br />'
-              );
-
-
-            }) //END OF EACH
-            $('.del').click(function () {
-              var idToDelete = $(this).parent('div').attr('id')
-              console.log(idToDelete);
-              $.ajax({
-                type: 'delete',
-                url: '/course/' + idToDelete
-              })
-              getCourses();
-            }) //END CLICK DELETE FUNCTION
-
-
-
-
-            $('.update').click(function () {
-              $(this).hide()
-              $(this).siblings(".del").hide()
-              $(this).parent("div").append('<button class="save"> Save </button>')
-
-              var idToUpdate = $(this).parent('div').attr('id')
-
-              var date = $(this).siblings(".date").text();
-              $(this).siblings(".date").html('<input type = "text" class = "updatedDate" value = ' + date +
-                '>')
-
-              var course = $(this).siblings(".course").text();
-              $(this).siblings(".course").html('<input type = "text" class = "updatedCourse" value = ' +
-                course +
-                '>')
-
-              var location = $(this).siblings(".location").text();
-              $(this).siblings(".location").html('<input type = "text" class = "updatedLocation" value = ' +
-                location +
-                '>')
-
-              var courseDirector = $(this).siblings(".courseDirector").text();
-              $(this).siblings(".courseDirector").html(
-                '<input type = "text" class = "updatedCourseDirector" value = ' +
-                courseDirector +
-                '>')
-
-              $('.save').click(function () {
-                var date = $(this).siblings('.date').children('updatedDate').val()
-
-                getCourses();
-              })
-            }) // End Update Click
-          }) //END OF GETJSON
-        } //END GETCOURSES FUNCTION
-
+      $('#submit_form').click(function () {
+        var data = {};
+        data.date = $('#datetimepicker').val();
+        data.course = $('#course').val();
+        data.location = $('#location').val();
+        data.courseDirector = $('#courseDirector').val();
+        data.assist1 = $('#assist1').val();
+        data.assist2 = $('#assist2').val();
+        data.assist3 = $('#assist3').val();
+        data.user = $('#loggedInAs').val();
+        console.log(data);
+        $.ajax({
+          type: 'post',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          url: '/course'
+        })
         getCourses();
-        $('#datetimepicker').datetimepicker({}); //END DATETIMEPICKER
-      })
-    </script>
+      }) //END OF SUBMITFORMCLICK
+
+
+      function getCourses() {
+        $.getJSON('/course', function (docs) {
+          $('.calendar').html('');
+          $.each(docs, function (key, value) {
+            var location = value.location;
+            var course = value.course;
+            var courseDirector = value.courseDirector;
+            var date = value.date;
+            var assist1 = value.assist1;
+            var assist2 = value.assist2;
+            var assist3 = value.assist3;
+            var user = value.user;
+            if (user === $('#loggedInAs').val()) {
+              var editable =
+                '<span role="button" class="del"><span class="glyphicon glyphicon-trash"></span></span> <span class="tab-space"></span><span role="button" class="update"><span class="glyphicon glyphicon-pencil"></span></span>'
+            } else {
+              var editable = 'POSTED BY OTHER USER'
+            }
+
+            $('footer').html('Logged in as: ' + user);
+
+
+            $('.calendar').prepend('<div id="' + value._id + '"><span class="date"> ' + date +
+              '</span> <span class="course"><span class="tab-space"></span> ' + course +
+              '</span> <span class="tab-space"></span>' + location +
+              ' <span class="tab-space"></span> ' +
+              courseDirector + '<span class="tab-space"></span> ' + '<span class="tab-space"></span>' +
+              editable + '</div><br />'
+            );
+
+
+          }) //END OF EACH
+          $('.del').click(function () {
+            var idToDelete = $(this).parent('div').attr('id')
+            console.log(idToDelete);
+            $.ajax({
+              type: 'delete',
+              url: '/course/' + idToDelete
+            })
+            getCourses();
+          }) //END CLICK DELETE FUNCTION
+
+
+
+
+          $('.update').click(function () {
+            $(this).hide()
+            $(this).siblings(".del").hide()
+            $(this).parent("div").append('<button class="save"> Save </button>')
+
+            var idToUpdate = $(this).parent('div').attr('id')
+
+            var date = $(this).siblings(".date").text();
+            $(this).siblings(".date").html('<input type = "text" class = "updatedDate" value = ' + date +
+              '>')
+
+            var course = $(this).siblings(".course").text();
+            $(this).siblings(".course").html('<input type = "text" class = "updatedCourse" value = ' +
+              course +
+              '>')
+
+            var location = $(this).siblings(".location").text();
+            $(this).siblings(".location").html('<input type = "text" class = "updatedLocation" value = ' +
+              location +
+              '>')
+
+            var courseDirector = $(this).siblings(".courseDirector").text();
+            $(this).siblings(".courseDirector").html(
+              '<input type = "text" class = "updatedCourseDirector" value = ' +
+              courseDirector +
+              '>')
+
+            $('.save').click(function () {
+              var date = $(this).siblings('.date').children('updatedDate').val()
+
+              getCourses();
+            })
+          }) // End Update Click
+        }) //END OF GETJSON
+      } //END GETCOURSES FUNCTION
+
+      getCourses();
+      $('#datetimepicker').datetimepicker({}); //END DATETIMEPICKER
+    })
+  </script>
 </body>
 
 </html>
