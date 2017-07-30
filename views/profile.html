@@ -21,7 +21,8 @@
       </div>
       <div>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+          <li><a href="profile.html"><span class="glyphicon glyphicon-refresh"></span> Refresh </a></li>
+          <li><a href="login.html"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
         </ul>
       </div>
     </div>
@@ -113,7 +114,6 @@
 
 
         function getCourses() {
-          setTimeout(50000);
           $.getJSON('/course', function (docs) {
             $('.calendar').html('');
             $.each(docs, function (key, value) {
