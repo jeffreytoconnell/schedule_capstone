@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Course Schedule</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="profile.css">
+  <link rel="stylesheet" href="jquery.datetimepicker.css">
+</head>
+
+<body>
+
+  <div class="menu">
+    <div class="container">
+      <div class="navbar-header">
+        <img class="logo" src="logo.png" alt="Logo">
+      </div>
+      <div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-main">
+    <div class="container">
+      <h2>Add Course</h2>
+      <h5>Date/Time
+        <input id="datetimepicker" type="text" value=""> Course
+        <select id="course">
+      <option value="Algebra" > Algebra </option>
+      <option value="English 1A"> English 1A </option>
+      <option value="English 2A"> English 2A </option>
+      <option value="History"> History </option>
+      <option value="Social Science"> Social Science </option>
+    </select> Campus
+        <select id="location">
+    <option value="Auburn"> Auburn </option>
+    <option value="Folsom"> Folsom </option>
+    <option value="Roseville"> Roseville </option>
+    <option value="Sacramento"> Sacramento </option>
+    <option value="West Sacramento"> West Sacramento </option>
+    </select> Instructor
+        <select id="courseDirector">
+    <option value="Mustaine"> Mustaine </option>
+    <option value="Hendrix"> Hendrix </option>
+    <option value="Ulrich"> Ulrich </option>
+    <option value="Hammett"> Hammett </option>
+    <option value="Hetfield"> Hetfield </option>
+    </select>
+      
+
+      <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
+      <input id="submit_form" type="submit" value="Submit">
+</h5>
+    </div>
+
+    <div class="container">
+      <div class="calendar-header">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Course</th>
+              <th>Location</th>
+              <th>Instructor</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div class="calendar">
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+      </div>
+    </footer>
+</div>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="jquery.datetimepicker.js"></script>
+    <script>
+      $(document).ready(function () {
+
+
+        $('#submit_form').click(function () {
+          var data = {};
+          data.date = $('#datetimepicker').val();
+          data.course = $('#course').val();
+          data.location = $('#location').val();
+          data.courseDirector = $('#courseDirector').val();
+          data.assist1 = $('#assist1').val();
+          data.assist2 = $('#assist2').val();
+          data.assist3 = $('#assist3').val();
+          data.user = $('#loggedInAs').val();
+          console.log(data);
+          $.ajax({
+            type: 'post',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: '/course'
+          })
+          getCourses();
+        }) //END OF SUBMITFORMCLICK
+
+
+        function getCourses() {
+          setTimeout(50000);
+          $.getJSON('/course', function (docs) {
+            $('.calendar').html('');
+            $.each(docs, function (key, value) {
+              var location = value.location;
+              var course = value.course;
+              var courseDirector = value.courseDirector;
+              var date = value.date;
+              var assist1 = value.assist1;
+              var assist2 = value.assist2;
+              var assist3 = value.assist3;
+              var user = value.user;
+              if (user === $('#loggedInAs').val()) {
+                var editable =
+                  '<span role="button" class="del"><span class="glyphicon glyphicon-trash"></span></span>  <span role="button" class="update"><span class="glyphicon glyphicon-pencil"></span></span>'
+              } else {
+                var editable = 'POSTED BY OTHER USER'
+              }
+
+              
+
+              $('.calendar').prepend('<div id="' + value._id + '"><span class="date"> ' + date +
+                '</span> <span class="course"><span class="tab-space"></span> ' + course +
+                '</span> <span class="tab-space"></span>' + location +
+                ' <span class="tab-space"></span> ' +
+                courseDirector + '<span class="tab-space"></span> ' + '<span class="tab-space"></span>' +
+                editable + '</div><br />'
+              );
+
+
+            }) //END OF EACH
+            $('.del').click(function () {
+              var idToDelete = $(this).parent('div').attr('id')
+              console.log(idToDelete);
+              $.ajax({
+                type: 'delete',
+                url: '/course/' + idToDelete
+              })
+              getCourses();
+            }) //END CLICK DELETE FUNCTION
+
+
+
+
+            $('.update').click(function () {
+              $(this).hide()
+              $(this).siblings(".del").hide()
+              $(this).parent("div").append('<button class="save"> Save </button>')
+
+              var idToUpdate = $(this).parent('div').attr('id')
+
+              var date = $(this).siblings(".date").text();
+              $(this).siblings(".date").html('<input type = "text" class = "updatedDate" value = ' + date +
+                '>')
+
+              var course = $(this).siblings(".course").text();
+              $(this).siblings(".course").html('<input type = "text" class = "updatedCourse" value = ' +
+                course +
+                '>')
+
+              var location = $(this).siblings(".location").text();
+              $(this).siblings(".location").html('<input type = "text" class = "updatedLocation" value = ' +
+                location +
+                '>')
+
+              var courseDirector = $(this).siblings(".courseDirector").text();
+              $(this).siblings(".courseDirector").html(
+                '<input type = "text" class = "updatedCourseDirector" value = ' +
+                courseDirector +
+                '>')
+
+              $('.save').click(function () {
+                var date = $(this).siblings('.date').children('updatedDate').val()
+
+                getCourses();
+              })
+            }) // End Update Click
+          }) //END OF GETJSON
+        } //END GETCOURSES FUNCTION
+
+        getCourses();
+        $('#datetimepicker').datetimepicker({}); //END DATETIMEPICKER
+      })
+    </script>
+</body>
+
+</html>
