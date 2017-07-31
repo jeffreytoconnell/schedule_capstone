@@ -11,6 +11,7 @@ var flash    = require('connect-flash');
 var configDB = require('./config/database.js');
 var Course = require('./app/models/course.js');
 
+
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
 
@@ -25,7 +26,8 @@ app.configure(function() {
 	app.use(express.bodyParser()); // get information from html forms
 	app.engine('html', require('ejs').renderFile);
 	app.set('view engine', 'html');
-	//app.set('view engine', 'ejs'); // set up ejs for templating
+    //app.set('view engine', 'ejs'); // set up ejs for templating
+    
 
 	// required for passport
 	app.use(express.session({ secret: 'slipknot' })); // session secret

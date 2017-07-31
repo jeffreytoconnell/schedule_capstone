@@ -62,17 +62,14 @@
 
     <div class="container">
       <div class="calendar-header">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Date </th>
-              <th>Course</th>
+        
+          
+              <div class="date">Date </div>
+              <div class="course">Course</div>
               <th>Location</th>
               <th>Instructor</th>
               <th>Delete / Edit</th>
-            </tr>
-          </thead>
-        </table>
+         
       </div>
     </div>
 
@@ -138,18 +135,19 @@
             $('footer').html('Logged in as: ' + user);
 
 
-            $('.calendar').prepend('<div id="' + value._id + '"><span class="date"> ' + date +
-              '</span> <span class="course"><span class="tab-space"></span> ' + course +
-              '</span> <span class="tab-space"></span>' + location +
-              ' <span class="tab-space"></span> ' +
-              courseDirector + '<span class="tab-space"></span> ' + '<span class="tab-space"></span>' +
-              editable + '</div><br />'
+            $('.calendar').prepend('<div id="' + value._id + '"><div class="date"> ' + date +
+              '</div> <div class="course"> ' + course +
+              '</div>' + 
+              '<div class="location">' + location + '</div>' +
+
+              '<div class="instructor">' + courseDirector + '</div>' +
+              '<div class ="editable">' + editable + '</div><br />'
             );
 
 
           }) //END OF EACH
           $('.del').click(function () {
-            var idToDelete = $(this).parent('div').attr('id')
+            var idToDelete = $(this).parent('div').parent('div').attr('id')
             console.log(idToDelete);
             $.ajax({
               type: 'delete',
@@ -168,22 +166,22 @@
 
             var idToUpdate = $(this).parent('div').attr('id')
 
-            var date = $(this).siblings(".date").text();
-            $(this).siblings(".date").html('<input type = "text" class = "updatedDate" value = ' + date +
+            var date = $(this).parent("div").siblings(".date").text();
+            $(this).parent("div").siblings(".date").html('<input type = "text" class = "updatedDate" value = ' + date +
               '>')
 
-            var course = $(this).siblings(".course").text();
-            $(this).siblings(".course").html('<input type = "text" class = "updatedCourse" value = ' +
+            var course = $(this).parent("div").siblings(".course").text();
+            $(this).parent("div").siblings(".course").html('<input type = "text" class = "updatedCourse" value = ' +
               course +
               '>')
 
-            var location = $(this).siblings(".location").text();
-            $(this).siblings(".location").html('<input type = "text" class = "updatedLocation" value = ' +
+            var location = $(this).parent("div").siblings(".location").text();
+            $(this).parent("div").siblings(".location").html('<input type = "text" class = "updatedLocation" value = ' +
               location +
               '>')
 
-            var courseDirector = $(this).siblings(".courseDirector").text();
-            $(this).siblings(".courseDirector").html(
+            var courseDirector = $(this).parent("div").siblings(".instructor").text();
+            $(this).parent("div").siblings(".courseDirector").html(
               '<input type = "text" class = "updatedCourseDirector" value = ' +
               courseDirector +
               '>')

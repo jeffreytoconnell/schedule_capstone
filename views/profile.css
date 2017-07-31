@@ -60,3 +60,14 @@ span.tab-space {padding-left:5%;
     overflow: scroll;
     height: 700px;
 }
+
+.date,
+.location,
+.course,
+.instructor,
+.editable {
+    display: inline-block;
+    width: 19%;
+    text-align: left;
+
+}

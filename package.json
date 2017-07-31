@@ -1,6 +1,9 @@
 {
   "name": "node-authentication",
   "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies" : {
     "express" : "~3.4.4", 			
     "ejs" : "~0.8.5", 				
@@ -12,5 +15,9 @@
     "passport-google-oauth" : "~0.1.5",
     "connect-flash" : "~0.1.1", 	
     "bcrypt-nodejs" : "latest" 		
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
   }
 }
