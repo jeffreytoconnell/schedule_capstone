@@ -157,14 +157,18 @@
           }) //END CLICK DELETE FUNCTION
 
 
-
-
           $('.update').click(function () {
             $(this).hide()
             $(this).siblings(".del").hide()
             $(this).parent("div").append('<button class="save"> Save </button>')
 
-            var idToUpdate = $(this).parent('div').attr('id')
+            var idToUpdate = $(this).parent('div').parent('div').attr('id')
+            console.log(idToUpdate);
+            $.ajax({
+              type: 'put',
+              url: '/course/' + idToUpdate
+            })
+            
 
             var date = $(this).parent("div").siblings(".date").text();
             $(this).parent("div").siblings(".date").html('<input type = "text" class = "updatedDate" value = ' + date +

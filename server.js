@@ -65,12 +65,28 @@ app.delete('/course/:id', (req, res) => {
     Course.findByIdAndRemove(req.params.id, function(err, docs){
         if(err)
         res.send(err)
-        
     });
     console.log('Deleted', req.params.id);
     res.json({Message: "Item Deleted"})
     
 });
+
+// PUT
+app.put('/course/:id',(req, res) => {
+    console.log(req.params);
+    Course.findByIdAndUpdate(req.params.id, function(err, docs){
+        if(err)
+            res.send(err)
+    });
+    console.log('PUT', req.params.id);
+    Course.update({
+        id: req.params.id,
+        date: req.body.date,
+        course: req.body.course,
+        location: req.body.location
+    });
+    console.log('Got HERE');
+})
 
 // launch ======================================================================
 app.listen(port);
