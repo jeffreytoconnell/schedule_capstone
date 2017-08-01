@@ -21,7 +21,7 @@
       </div>
       <div>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="profile.html"><span class="glyphicon glyphicon-refresh"></span> Refresh </a></li>
+          
           <li><a href="login.html"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
         </ul>
       </div>
@@ -53,11 +53,11 @@
     <option value="Hammett"> Hammett </option>
     <option value="Hetfield"> Hetfield </option>
     </select>
-
+    
 
         <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
         <input id="submit_form" type="submit" value="Submit">
-      </h5>
+      </h5><hr>
     </div>
 
     <div class="container">
@@ -66,13 +66,13 @@
           
               <div class="date">Date </div>
               <div class="course">Course</div>
-              <th>Location</th>
-              <th>Instructor</th>
-              <th>Delete / Edit</th>
+              <div class="location">Location</div>
+              <div class="instructor">Instructor</div>
+              <div class="editable">Delete / Edit</div>
+              <hr>
          
       </div>
     </div>
-
 
     <div class="container">
       <div class="calendar">
@@ -180,10 +180,10 @@
               location +
               '>')
 
-            var courseDirector = $(this).parent("div").siblings(".instructor").text();
-            $(this).parent("div").siblings(".courseDirector").html(
-              '<input type = "text" class = "updatedCourseDirector" value = ' +
-              courseDirector +
+            var instructor = $(this).parent("div").siblings(".instructor").text();
+            $(this).parent("div").siblings(".instructor").html(
+              '<input type = "text" class = "updatedInstructor" value = ' +
+              instructor +
               '>')
 
             $('.save').click(function () {
