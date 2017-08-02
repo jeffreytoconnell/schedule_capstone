@@ -200,7 +200,9 @@
             $.ajax({
               type: 'put',
               url: '/course/' + idToUpdate,
-              data : JSON.stringify(updatedObject) 
+              data : JSON.stringify(updatedObject),
+              contentType: 'application/json',
+      
             })
               getCourses();
             })
