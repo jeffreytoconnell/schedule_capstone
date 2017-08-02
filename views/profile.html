@@ -162,14 +162,8 @@
             $(this).siblings(".del").hide()
             $(this).parent("div").append('<button class="save"> Save </button>')
 
-            var idToUpdate = $(this).parent('div').parent('div').attr('id')
-            console.log(idToUpdate);
-            $.ajax({
-              type: 'put',
-              url: '/course/' + idToUpdate
-            })
-            
-
+           
+          
             var date = $(this).parent("div").siblings(".date").text();
             $(this).parent("div").siblings(".date").html('<input type = "text" class = "updatedDate" value = ' + date +
               '>')
@@ -191,8 +185,23 @@
               '>')
 
             $('.save').click(function () {
-              var date = $(this).siblings('.date').children('updatedDate').val()
-
+              var date = $(this).parent().siblings('.date').children('.updatedDate').val();
+             console.log(date);
+              var course = $(this).parent().siblings('.course').children('.updatedCourse').val();
+              var location = $(this).parent().siblings('.location').children('.updatedLocation').val();
+              var courseDirector = $(this).parent().siblings('.instructor').children('.updatedInstructor').val();
+              var idToUpdate = $(this).parent('div').parent('div').attr('id')
+              var updatedObject = {}
+              updatedObject.date = date
+              updatedObject.course = course
+              updatedObject.location = location
+              updatedObject.courseDirector = courseDirector
+              console.log(updatedObject);
+            $.ajax({
+              type: 'put',
+              url: '/course/' + idToUpdate,
+              data : JSON.stringify(updatedObject) 
+            })
               getCourses();
             })
           }) // End Update Click
