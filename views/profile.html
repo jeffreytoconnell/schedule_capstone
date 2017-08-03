@@ -21,7 +21,7 @@
       </div>
       <div>
         <ul class="nav navbar-nav navbar-right">
-          
+
           <li><a href="login.html"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
         </ul>
       </div>
@@ -53,27 +53,22 @@
     <option value="Hammett"> Hammett </option>
     <option value="Hetfield"> Hetfield </option>
     </select>
-    
-
         <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
         <input id="submit_form" type="submit" value="Submit">
-      </h5><hr>
+      </h5>
+      <hr>
     </div>
 
     <div class="container">
       <div class="calendar-header">
-        
-          
-              <div class="date">Date </div>
-              <div class="course">Course</div>
-              <div class="location">Location</div>
-              <div class="instructor">Instructor</div>
-              <div class="editable">Delete / Edit</div>
-              <hr>
-         
+        <div class="date">Date </div>
+        <div class="course">Course</div>
+        <div class="location">Location</div>
+        <div class="instructor">Instructor</div>
+        <div class="editable">Delete / Edit</div>
+        <hr>
       </div>
     </div>
-
     <div class="container">
       <div class="calendar">
       </div>
@@ -81,10 +76,8 @@
 
     <footer class="footer">
       <div class="container">
-
       </div>
     </footer>
-
   </div>
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
   <script src="jquery.datetimepicker.js"></script>
@@ -121,9 +114,6 @@
             var course = value.course;
             var courseDirector = value.courseDirector;
             var date = value.date;
-            var assist1 = value.assist1;
-            var assist2 = value.assist2;
-            var assist3 = value.assist3;
             var user = value.user;
             if (user === $('#loggedInAs').val()) {
               var editable =
@@ -137,7 +127,7 @@
 
             $('.calendar').prepend('<div id="' + value._id + '"><div class="date"> ' + date +
               '</div> <div class="course"> ' + course +
-              '</div>' + 
+              '</div>' +
               '<div class="location">' + location + '</div>' +
 
               '<div class="instructor">' + courseDirector + '</div>' +
@@ -162,19 +152,20 @@
             $(this).siblings(".del").hide()
             $(this).parent("div").append('<button class="save"> Save </button>')
 
-           
-          
             var date = $(this).parent("div").siblings(".date").text();
-            $(this).parent("div").siblings(".date").html('<input type = "text" class = "updatedDate" value = ' + date +
+            $(this).parent("div").siblings(".date").html(
+              '<input type = "text" class = "updatedDate" value = ' + date +
               '>')
 
             var course = $(this).parent("div").siblings(".course").text();
-            $(this).parent("div").siblings(".course").html('<input type = "text" class = "updatedCourse" value = ' +
+            $(this).parent("div").siblings(".course").html(
+              '<input type = "text" class = "updatedCourse" value = ' +
               course +
               '>')
 
             var location = $(this).parent("div").siblings(".location").text();
-            $(this).parent("div").siblings(".location").html('<input type = "text" class = "updatedLocation" value = ' +
+            $(this).parent("div").siblings(".location").html(
+              '<input type = "text" class = "updatedLocation" value = ' +
               location +
               '>')
 
@@ -185,31 +176,28 @@
               '>')
 
             $('.save').click(function () {
-              var date = $(this).parent().siblings('.date').children('.updatedDate').val();
-             console.log(date);
-              var course = $(this).parent().siblings('.course').children('.updatedCourse').val();
-              var location = $(this).parent().siblings('.location').children('.updatedLocation').val();
-              var courseDirector = $(this).parent().siblings('.instructor').children('.updatedInstructor').val();
               var idToUpdate = $(this).parent('div').parent('div').attr('id')
-              var updatedObject = {}
-              updatedObject.date = date
-              updatedObject.course = course
-              updatedObject.location = location
-              updatedObject.courseDirector = courseDirector
-              console.log(updatedObject);
-            $.ajax({
-              type: 'put',
-              url: '/course/' + idToUpdate,
-              data : JSON.stringify(updatedObject),
-              contentType: 'application/json',
-      
-            })
+              console.log(idToUpdate);
+
+              var data = {};
+              data.date = $(this).parent('div').siblings('.date').children('.updatedDate').val();
+              data.course = $(this).parent('div').siblings('.course').children('.updatedCourse').val();
+              data.location = $(this).parent('div').siblings('.location').children('.updatedLocation').val();
+              data.courseDirector = $(this).parent('div').siblings('.instructor').children('.updatedInstructor').val();
+              data.user = $('#loggedInAs').val();
+              data.id = idToUpdate;
+             
+              $.ajax({
+                type: 'put',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                url: '/course/'
+              })
               getCourses();
-            })
+            }) //END OF SUBMITFORMCLICK
           }) // End Update Click
         }) //END OF GETJSON
       } //END GETCOURSES FUNCTION
-
       getCourses();
       $('#datetimepicker').datetimepicker({}); //END DATETIMEPICKER
     })
