@@ -21,13 +21,14 @@
       </div>
       <div>
         <ul class="nav navbar-nav navbar-right">
-
           <li><a href="login.html"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
         </ul>
       </div>
     </div>
   </div>
+
   <div class="container-main">
+
     <div class="container">
       <h2>Add Course</h2>
       <h5>Date/Time
@@ -53,6 +54,7 @@
     <option value="Hammett"> Hammett </option>
     <option value="Hetfield"> Hetfield </option>
     </select>
+
         <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
         <input id="submit_form" type="submit" value="Submit">
       </h5>
@@ -69,6 +71,7 @@
         <hr>
       </div>
     </div>
+
     <div class="container">
       <div class="calendar">
       </div>
@@ -78,13 +81,15 @@
       <div class="container">
       </div>
     </footer>
+
   </div>
+
+
+
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
   <script src="jquery.datetimepicker.js"></script>
   <script>
     $(document).ready(function () {
-
-
       $('#submit_form').click(function () {
         var data = {};
         data.date = $('#datetimepicker').val();
@@ -103,7 +108,7 @@
           url: '/course'
         })
         getCourses();
-      }) //END OF SUBMITFORMCLICK
+      }) //END OF SUBMITFORM CLICK
 
 
       function getCourses() {
@@ -124,7 +129,6 @@
 
             $('footer').html('Logged in as: ' + user);
 
-
             $('.calendar').prepend('<div id="' + value._id + '"><div class="date"> ' + date +
               '</div> <div class="course"> ' + course +
               '</div>' +
@@ -133,9 +137,8 @@
               '<div class="instructor">' + courseDirector + '</div>' +
               '<div class ="editable">' + editable + '</div><br />'
             );
-
-
           }) //END OF EACH
+
           $('.del').click(function () {
             var idToDelete = $(this).parent('div').parent('div').attr('id')
             console.log(idToDelete);
@@ -145,7 +148,6 @@
             })
             getCourses();
           }) //END CLICK DELETE FUNCTION
-
 
           $('.update').click(function () {
             $(this).hide()
@@ -183,10 +185,11 @@
               data.date = $(this).parent('div').siblings('.date').children('.updatedDate').val();
               data.course = $(this).parent('div').siblings('.course').children('.updatedCourse').val();
               data.location = $(this).parent('div').siblings('.location').children('.updatedLocation').val();
-              data.courseDirector = $(this).parent('div').siblings('.instructor').children('.updatedInstructor').val();
+              data.courseDirector = $(this).parent('div').siblings('.instructor').children(
+                '.updatedInstructor').val();
               data.user = $('#loggedInAs').val();
               data.id = idToUpdate;
-             
+
               $.ajax({
                 type: 'put',
                 data: JSON.stringify(data),
@@ -195,13 +198,15 @@
               })
               getCourses();
             }) //END OF SUBMITFORMCLICK
-          }) // End Update Click
+          }) // End UPDATE CLICK
         }) //END OF GETJSON
       } //END GETCOURSES FUNCTION
+
       getCourses();
       $('#datetimepicker').datetimepicker({}); //END DATETIMEPICKER
     })
   </script>
+
 </body>
 
 </html>

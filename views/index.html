@@ -10,34 +10,31 @@
 </head>
 
 <body>
-
     <img class="logo" src="logo.png" alt="Logo">
 
     <!--EMAIL INPUT-->
     <form action="/login" method="post">
-    <div class="signup">
-        <h1>Login</h1>
-        <label for="user-email">Email</label>
-        <input type="email" placeholder=" " name="email" id="user-email" required/>
-        
-        <!--PASSWORD INPUT-->
-        
+        <div class="signup">
+            <h1>Login</h1>
+            <label for="user-email">Email</label>
+            <input type="email" placeholder=" " name="email" id="user-email" required/>
+
+            <!--PASSWORD INPUT-->
             <label for="user-password">Password</label>
             <input placeholder=" " label="false" type="password" name="password" id="user-password" required/>
-        
-        <!--SIGN IN BUTTON-->
-        
-        <button type="submit" class="button">Log In</button>
-        <a href="/signup.html">Signup</a>
-        
+
+            <!--SIGN IN BUTTON-->
+            <button type="submit" class="button">Log In</button>
+            <a href="/signup.html">Signup</a>
         </div>
-        </form>
-    </div>
+    </form>
+
     <script>
-        if(document.location.search=='?fail'){
+        if (document.location.search == '?fail') {
             alert("Incorrect Email or Password")
         }
-        
-        </script>
+</script>
+
 </body>
+
 </html>
