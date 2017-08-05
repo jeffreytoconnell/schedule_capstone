@@ -1,48 +1,41 @@
-// server.js
-
-// set up ======================================================================
-// get all the tools we need
+// GET ALL THE TOOLS NEEDED
 var express = require('express');
 var app = express();
-//var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
 var configDB = require('./config/database.js');
 var Course = require('./app/models/course.js');
-//var server = require('./server')
+//var port = process.env.PORT || 8080;
 let server;
 module.exports = server;
 
-// configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
-
-require('./config/passport')(passport); // pass passport for configuration
+// CONFIGURATION
+mongoose.connect(configDB.url); // CONNECT TO DB VAR FROM ABOVE
+require('./config/passport')(passport); // PASS PASSPORT FOR CONFIG
 
 app.configure(function () {
-
-    // set up our express application
+    // SET UP OUR EXPRESS APPLICATION
     app.use(express.static(__dirname + '/views'));
-    app.use(express.logger('dev')); // log every request to the console
-    app.use(express.cookieParser()); // read cookies (needed for auth)
-    app.use(express.bodyParser()); // get information from html forms
+    app.use(express.logger('dev')); // LOG EVERY REQUEST TO CONSOLE
+    app.use(express.cookieParser()); // READ COOKIES(NEEDED FOR AUTH)
+    app.use(express.bodyParser()); // GET INFO FROM HTML FORMS
     app.engine('html', require('ejs').renderFile);
     app.set('view engine', 'html');
-    //app.set('view engine', 'ejs'); // set up ejs for templating
+    //app.set('view engine', 'ejs'); // SET UP EJS FOR TEMPLATING
 
-
-    // required for passport
+    // REQUIRED FOR PASSPORT
     app.use(express.session({
         secret: 'slipknot'
-    })); // session secret
+    })); // SESSION SECRET
     app.use(passport.initialize());
-    app.use(passport.session()); // persistent login sessions
-    app.use(flash()); // use connect-flash for flash messages stored in session
-
+    app.use(passport.session()); // PERSISTENT LOGIN SESSIONS
+    app.use(flash()); // USE CONNECT-FLASH FOR FLASH MESSAGES STORED IN SESSION
 });
 
-// routes ======================================================================
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+// ROUTES
+require('./app/routes.js')(app, passport); // LOAD OUR ROUTES AND PASS IN OUR APP AND FULLY CONFIGURED PASSPORT
+
 // POST
 app.post('/course', function (req, res, next) {
     console.log(req.body);
@@ -53,6 +46,7 @@ app.post('/course', function (req, res, next) {
         }
     })
 });
+
 // GET
 app.get('/course', function (req, res, next) {
     console.log(req.body)
@@ -78,67 +72,58 @@ app.delete('/course/:id', (req, res) => {
 });
 
 // PUT
-app.put('/course', function(req, res){
+app.put('/course', function (req, res) {
     console.log(req.body.id);
     console.log(req.body);
     console.log("PUT-HERE");
 
-    Course.findByIdAndUpdate(req.body.id,  {
-         date: req.body.date,
-         course: req.body.course,
-         location: req.body.location,
-         courseDirector: req.body.courseDirector
-         
-    }, //{
-       // "new": true
-    //},
-     function (err, res2) {
-        console.log(err);
-        console.log(res2);
-    });
+    Course.findByIdAndUpdate(req.body.id, {
+            date: req.body.date,
+            course: req.body.course,
+            location: req.body.location,
+            courseDirector: req.body.courseDirector
+        },
+        function (err, res2) {
+            console.log(err);
+            console.log(res2);
+        });
     res.status(204).end();
-    });
-    
-   
+});
 
-// launch ======================================================================
-//app.listen(port);
-//console.log('Running on port ' + port);
-
-
-
-// run server===================================================================
+// RUN SERVER
 function runServer() {
-  const port = process.env.PORT || 8080;
-  return new Promise((resolve, reject) => {
-    server = app.listen(port, () => {
-      console.log(`Your app is listening on port ${port}`);
-      resolve(server);
-    }).on('error', err => {
-      reject(err)
+    const port = process.env.PORT || 8080;
+    return new Promise((resolve, reject) => {
+        server = app.listen(port, () => {
+            console.log(`Your app is listening on port ${port}`);
+            resolve(server);
+        }).on('error', err => {
+            reject(err)
+        });
     });
-  });
 }
+// END OF RUN SERVER
+
+// CLOSE SERVER
+function closeServer() {
+    return new Promise((resolve, reject) => {
+        console.log('Closing server');
+        server.close(err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve();
+        });
+    });
+}
+// END OF CLOSE SERVER
+
+if (require.main === module) {
+    runServer().catch(err => console.error(err));
+};
+
 module.exports = server;
 module.exports = app;
 module.exports = runServer;
 module.exports = closeServer;
-// close server==================================================================
-function closeServer() {
-  return new Promise((resolve, reject) => {
-    console.log('Closing server');
-    server.close(err => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve();
-    });
-  });
-}
-if (require.main === module) {
-  runServer().catch(err => console.error(err));
-};
-
-
-
