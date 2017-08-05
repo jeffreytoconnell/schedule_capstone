@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-// Course Schema
+// COURSE SCHEMA
 var courseSchema = mongoose.Schema({
     date:{
         type: String,
@@ -18,20 +18,7 @@ var courseSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    assist1:{
-        type: String,
-        required: false
-    },
-    assist2:{
-        type: String,
-        required: false
-    },
-    assist3:{
-        type: String,
-        required: false
-    },
     user: String
-
 });
-
+// END OF COURSE SCHEMA
 module.exports = mongoose.model('Course', courseSchema);
