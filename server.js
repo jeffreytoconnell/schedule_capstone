@@ -6,8 +6,34 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var configDB = require('./config/database.js');
 var Course = require('./app/models/course.js');
+var nodemailer = require('nodemailer');
 //var port = process.env.PORT || 8080;
 let server;
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: false,
+    port: 25,
+    auth: {
+        user: 'scheduler.099@gmail.com',
+        pass: 'Gunner99'
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+let helperOptions = {
+    from : '"Scheduler App" <scheduler.099@gmail.com',
+    to: ' ',
+    subject: ' ',
+    text: '  '
+};
+transporter.sendMail(helperOptions, (error, info) => {
+    if(error){
+        console.log(error);
+    }
+    console.log("Message Sent");
+    console.log(info);
+})
 module.exports = server;
 
 // CONFIGURATION
