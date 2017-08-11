@@ -9,33 +9,7 @@ var Course = require('./app/models/course.js');
 var nodemailer = require('nodemailer');
 //var port = process.env.PORT || 8080;
 let server;
-let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    secure: false,
-    port: 25,
-    auth: {
-        user: 'scheduler.099@gmail.com',
-        pass: 'Gunner99'
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-});
-let helperOptions = {
-    from : '"Scheduler App" <scheduler.099@gmail.com',
-    to: ' ',
-    subject: ' ',
-    text: '  '
-};
-transporter.sendMail(helperOptions, (error, info) => {
-    if(error){
-        console.log(error);
-    }
-    console.log("Message Sent");
-    console.log(info);
-})
 module.exports = server;
-
 // CONFIGURATION
 mongoose.connect(configDB.url); // CONNECT TO DB VAR FROM ABOVE
 require('./config/passport')(passport); // PASS PASSPORT FOR CONFIG
@@ -59,8 +33,43 @@ app.configure(function () {
     app.use(flash()); // USE CONNECT-FLASH FOR FLASH MESSAGES STORED IN SESSION
 });
 
+// NODEMAILER
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: false,
+    port: 25,
+    auth: {
+        user: 'scheduler.099@gmail.com',
+        pass: 'Gunner99'
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+
 // ROUTES
 require('./app/routes.js')(app, passport); // LOAD OUR ROUTES AND PASS IN OUR APP AND FULLY CONFIGURED PASSPORT
+
+app.post('/sendmail', function (req, res, next){
+    console.log(req.body);
+    let helperOptions = {
+    from : '"Scheduler App" <scheduler.099@gmail.com',
+    to: 'jeffreytoconnell@gmail.com', // ??? req.user.???
+    subject: 'Subject',
+    html: req.body.message // 
+};
+    transporter.sendMail(helperOptions, (error, info) => {
+    if(error){
+        console.log(error);
+    }
+    console.log("Message Sent");
+    console.log(info);
+    // window.location = "/profile";
+})
+})
+
 
 // POST
 app.post('/course', function (req, res, next) {
@@ -145,11 +154,17 @@ function closeServer() {
 }
 // END OF CLOSE SERVER
 
+
+
+
+
+
+
 if (require.main === module) {
     runServer().catch(err => console.error(err));
 };
 
-module.exports = server;
+
 module.exports = app;
 module.exports = runServer;
 module.exports = closeServer;

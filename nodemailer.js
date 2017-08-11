@@ -26,9 +26,9 @@ let transporter = nodemailer.createTransport({
 });
 let helperOptions = {
     from : '"Scheduler App" <scheduler.099@gmail.com',
-    to: 'jeffreytoconnell@gmail.com',
+    to: 'jeffreytoconnell@gmail.com', // ??? req.user.???
     subject: 'Subject',
-    text: 'TEXT'
+    text: 'TEXT' //  ???? req.body.??
 };
 transporter.sendMail(helperOptions, (error, info) => {
     if(error){

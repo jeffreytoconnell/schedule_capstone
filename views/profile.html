@@ -127,7 +127,23 @@
               var editable = 'POSTED BY OTHER USER'
             }
 
-            //$('footer').html('Logged in as: ' + user);
+            $('footer').html('<span role="button" class="email"><span class="glyphicon glyphicon-envelope"></span></span>');
+            
+            $('.email').click(function() {
+              var schedule = $('.calendar').html();
+              $('.calendar div').each(function () {
+                
+              })
+              var data = {
+                message: schedule
+              }
+             $.ajax({
+               type: 'post',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                url: '/sendmail/'
+             })
+            })
 
             $('.calendar').prepend('<div id="' + value._id + '"><div class="date"> ' + date +
               '</div> <div class="course"> ' + course +
