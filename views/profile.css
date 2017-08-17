@@ -79,7 +79,7 @@ span.tab-space {padding-left:5%;
 .course span,
 .instructor span,
 .editable span  {
-    display: none;
+     /* display: none; */
 }
 #submit_form {
     margin: 18px;
@@ -145,6 +145,10 @@ label input, label select{
     .navbar-right {
         width: 30%;
 
+    }
+
+    .calendar-header {
+        display: none;
     }
 
     label {
