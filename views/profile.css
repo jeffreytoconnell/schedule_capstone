@@ -73,3 +73,103 @@ span.tab-space {padding-left:5%;
     font-weight: bold;
 
 }
+
+.date span,
+.location span,
+.course span,
+.instructor span,
+.editable span  {
+    display: none;
+}
+#submit_form {
+    margin: 18px;
+    float: left;
+    
+}
+
+.form {
+    width: 100%;
+}
+label {
+    width: 20%;
+    float: left;
+    margin-right: 2%;
+}
+label input, label select{
+    width: 100%;
+}
+
+    .navbar-header, .navbar-right {
+        float: left;
+        width: 50%;
+    }
+.navbar-header img {
+    float: left;
+    
+}
+.navbar-right {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.navbar-right li {
+    list-style: none;
+}
+@media only screen and (max-width: 980px){
+    .date,
+    .location,
+    .course,
+    .instructor,
+    .editable {
+        display: block;
+        width: 100%;
+      
+    
+    }
+    
+    .date span,
+    .location span,
+    .course span,
+    .instructor span,
+    .editable span  {
+        display: inline-block;
+    }
+
+
+    .navbar-header img {
+        margin-left: 5%;
+        
+    }
+
+
+    .navbar-right {
+        width: 30%;
+
+    }
+
+    label {
+        
+        width: 100%;
+
+    }
+    label input, label select { 
+        width: 90%;
+
+    }
+
+    label div {
+        width: 25%;
+    }
+
+    #submit_form {
+        margin: 18px 0;
+    }
+}
+
+
+/* @media only screen and (max-width: 620px){
+    label {
+     
+        width: 100%;
+    }
+} */

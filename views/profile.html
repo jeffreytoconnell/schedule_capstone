@@ -3,7 +3,8 @@
 
 <head>
   <title>Course Schedule</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
@@ -19,70 +20,87 @@
       <div class="navbar-header">
         <img class="logo" src="logo.png" alt="Logo">
       </div>
-      <div>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="navbar-right">
           <li><a href="login.html"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
         </ul>
       </div>
     </div>
-  </div>
 
-  <div class="container-main">
 
-    <div class="container">
-      <h2>Add Course</h2>
-      <h5>Date/Time
-        <input id="datetimepicker" type="text" value=""> Course
-        <select id="course">
+
+
+
+  <div class="container">
+
+        <h2>Add Course</h2>
+    <label>
+           <div> Date/Time     </div>
+            <input id="datetimepicker" type="text" value="">
+    </label>
+    <label>
+           <div> Course </div>
+            <select id="course">
       <option value="Algebra" > Algebra </option>
       <option value="English 1A"> English 1A </option>
       <option value="English 2A"> English 2A </option>
       <option value="History"> History </option>
       <option value="Social Science"> Social Science </option>
-    </select> Campus
-        <select id="location">
+           </select>
+          </label>
+          <label>  
+         
+           <div> Campus  </div><select id="location">
     <option value="Auburn"> Auburn </option>
     <option value="Folsom"> Folsom </option>
     <option value="Roseville"> Roseville </option>
     <option value="Sacramento"> Sacramento </option>
     <option value="West Sacramento"> West Sacramento </option>
-    </select> Instructor
-        <select id="courseDirector">
+    </select>
+  </label>
+  <label>  
+ 
+           <div> Instructor </div>
+            <select id="courseDirector">
     <option value="Mustaine"> Mustaine </option>
     <option value="Hendrix"> Hendrix </option>
     <option value="Ulrich"> Ulrich </option>
     <option value="Hammett"> Hammett </option>
     <option value="Hetfield"> Hetfield </option>
     </select>
+  </label>
+ 
 
-        <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
-        <input id="submit_form" type="submit" value="Submit">
-      </h5>
-      <hr>
-    </div>
 
-    <div class="container">
-      <div class="calendar-header">
-        <div class="date">Date </div>
-        <div class="course">Course</div>
-        <div class="location">Location</div>
-        <div class="instructor">Instructor</div>
-        <div class="editable">Delete / Edit</div>
-        <hr>
+          <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
+          <div>
+          <input id="submit_form" type="submit" value="Submit">
+          </div>
+       
+      </div>
+   
+      <br><br>
+  <div class="container">
+ 
+        <div class="calendar-header">
+          <div class="date">Date </div>
+          <div class="course">Course</div>
+          <div class="location">Location</div>
+          <div class="instructor">Instructor</div>
+          <div class="editable">Delete / Edit</div>
+          <hr>
+        </div>
+
+        <div class="calendar">
+        </div>
       </div>
     </div>
-
-    <div class="container">
-      <div class="calendar">
-      </div>
-    </div>
-
-    <footer class="footer">
-      <div class="container">
-      </div>
-    </footer>
-
   </div>
+
+  <footer class="footer">
+    <div class="container">
+    </div>
+  </footer>
+
 
 
 
@@ -124,34 +142,36 @@
               var editable =
                 '<span role="button" class="del"><span class="glyphicon glyphicon-trash"></span></span> <span class="tab-space"></span><span role="button" class="update"><span class="glyphicon glyphicon-pencil"></span></span>'
             } else {
-              var editable = 'POSTED BY OTHER USER'
+              var editable = 'No Access'
             }
 
-            $('footer').html('<span role="button" class="email"><span class="glyphicon glyphicon-envelope"></span></span>');
-            
-            $('.email').click(function() {
+            $('footer').html(
+              '<span role="button" class="email"><span class="glyphicon glyphicon-envelope"></span></span>'
+            );
+
+            $('.email').click(function () {
               var schedule = $('.calendar').html();
               $('.calendar div').each(function () {
-                
+
               })
               var data = {
                 message: schedule
               }
-             $.ajax({
-               type: 'post',
+              $.ajax({
+                type: 'post',
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 url: '/sendmail/'
-             })
+              })
             })
 
-            $('.calendar').prepend('<div id="' + value._id + '"><div class="date"> ' + date +
-              '</div> <div class="course"> ' + course +
+            $('.calendar').prepend('<div id="' + value._id + '"><div class="date"> <span>Date: </span>' + date +
+              '</div> <div class="course"><span>Course: </span> ' + course +
               '</div>' +
-              '<div class="location">' + location + '</div>' +
+              '<div class="location"><span>Location: </span>' + location + '</div>' +
 
-              '<div class="instructor">' + courseDirector + '</div>' +
-              '<div class ="editable">' + editable + '</div><br />'
+              '<div class="instructor"><span>Instructor: </span>' + courseDirector + '</div>' +
+              '<div class ="editable"><span>Edit: </span>' + editable + '</div><br />'
             );
           }) //END OF EACH
 
