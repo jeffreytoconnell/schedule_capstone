@@ -21,7 +21,7 @@ label {
     font-family: 'Roboto', sans-serif;
     margin: auto;
     width: 45%;
-    padding: 40px;
+    padding: 10px;
     padding-top: 20px;
     border-radius: 3px;
     background: white;
@@ -105,6 +105,10 @@ footer {
     text-align: center;
 }
 
+.description {
+    margin: 0 auto;
+    text-align: center;
+}
 @media only screen and (max-width: 980px){
     .signup {
         width: 80%;
