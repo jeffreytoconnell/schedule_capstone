@@ -8,8 +8,8 @@ module.exports = function (app, passport) {
 
 	// LOGIN 
 	// SHOW LOGIN FORM
-	app.get('/login', function (req, res) {
-		res.render('login.html', {
+	app.get('/index', function (req, res) {
+		res.render('index.html', {
 			message: req.flash('loginMessage')
 		});
 	});
@@ -17,7 +17,7 @@ module.exports = function (app, passport) {
 	// PROCESS LOGIN FORM
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/profile',
-		failureRedirect: '/login?fail',
+		failureRedirect: '/index',
 		failureFlash: true // ALLOW FLASH MESSAGES
 	}));
 

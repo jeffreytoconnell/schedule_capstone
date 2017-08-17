@@ -14,6 +14,13 @@ module.exports = server;
 mongoose.connect(configDB.url); // CONNECT TO DB VAR FROM ABOVE
 require('./config/passport')(passport); // PASS PASSPORT FOR CONFIG
 
+app.configure(function() {
+    app.use(express.cookieParser('keyboard cat'));
+    app.use(express.session({ cookie: { maxAge: 60000 }}));
+    app.use(flash());
+  });
+
+
 app.configure(function () {
     // SET UP OUR EXPRESS APPLICATION
     app.use(express.static(__dirname + '/views'));
