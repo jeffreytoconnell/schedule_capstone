@@ -64,7 +64,7 @@ app.post('/sendmail', function (req, res, next){
     console.log(req.body);
     let helperOptions = {
     from : '"Scheduler App" <scheduler.099@gmail.com',
-    to: 'jeffreytoconnell@gmail.com', // ??? req.user.???
+    to: req.body.email, // ??? req.user.???
     subject: 'Subject',
     html: req.body.message // 
 };

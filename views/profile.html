@@ -142,22 +142,37 @@
             // FOOTER EMAIL 
 
             $('footer').html(
-              '<form>Email Schedule: <input type="text" name="email"><span role="button" class="email"> <span class="glyphicon glyphicon-envelope"></span></span>'
+              'Email Schedule: <input type="text" name="email" id="emailTo"><span role="button" class="email"> <span class="glyphicon glyphicon-envelope"></span></span>'
             ); 
             $('.email').click(function () {
-              
+              triggerEmail();
+            });
+            $('#emailTo').keyup(function(event) {
+              if (event.keyCode == 13) {
+                triggerEmail();
+              }
+            })
+            function triggerEmail() {
+            
               var schedule = $('.calendar').html(); 
               $('.calendar div').each(function () {
                 }) 
+                var emailTo = $('#emailTo').val()
                 var data = {
-                  message: schedule 
+                  message: schedule,
+                  email: emailTo 
                   } 
                   $.ajax({type: 'post',
                     data: JSON.stringify(data),
                     contentType: 'application/json',
-                    url: '/sendmail/' 
+                    url: '/sendmail/'
+                   
                   }) 
-            })
+                  $('#emailTo').val('')
+                  alert("Email Sent");
+
+            }
+
             // END FOOTER EMAIL
             $('.calendar').prepend('<div id="' + value._id + '"><div class="date"> <span></span>' + date +
               '</div> <div class="course"><span></span>' + course +
