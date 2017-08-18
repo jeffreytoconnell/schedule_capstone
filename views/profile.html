@@ -20,16 +20,16 @@
       <div class="navbar-header">
         <img class="logo" src="logo.png" alt="Logo">
       </div>
-        <ul class="navbar-right">
-          <li><a href="index.html"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
-        </ul>
-      </div>
+      <ul class="navbar-right">
+        <li><a href="index.html"><span class="glyphicon glyphicon-log-out"></span> Log Out </a></li>
+      </ul>
     </div>
+  </div>
 
 
   <div class="container">
 
-        <h2>Add Course</h2>
+    <h2>Add Course</h2>
     <label>
            <div> Date/Time     </div>
             <input id="datetimepicker" type="text" value="">
@@ -44,7 +44,7 @@
       <option value="Social Science"> Social Science </option>
            </select>
           </label>
-          <label>  
+    <label>  
          
            <div> Campus  </div><select id="location">
     <option value="Auburn"> Auburn </option>
@@ -54,7 +54,7 @@
     <option value="West Sacramento"> West Sacramento </option>
     </select>
   </label>
-  <label>  
+    <label>  
  
            <div> Instructor </div>
             <select id="courseDirector">
@@ -65,30 +65,30 @@
     <option value="Hetfield"> Hetfield </option>
     </select>
   </label>
- 
-          <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
-          <div>
-          <input id="submit_form" type="submit" value="Submit">
-          </div>
-       
-      </div>
-   
-      <br><br>
-  <div class="container">
- 
-        <div class="calendar-header">
-          <div class="date">Date </div>
-          <div class="course">Course</div>
-          <div class="location">Location</div>
-          <div class="instructor">Instructor</div>
-          <div class="editable">Delete / Edit</div>
-          <hr>
-        </div>
 
-        <div class="calendar">
-        </div>
-      </div>
+    <input type="hidden" value="<%=user.local.email%>" id="loggedInAs">
+    <div>
+      <input id="submit_form" type="submit" value="Submit">
     </div>
+
+  </div>
+
+  <br><br>
+  <div class="container">
+
+    <div class="calendar-header">
+      <div class="date">Date </div>
+      <div class="course">Course</div>
+      <div class="location">Location</div>
+      <div class="instructor">Instructor</div>
+      <div class="editable">Delete / Edit</div>
+      <hr>
+    </div>
+
+    <div class="calendar">
+    </div>
+  </div>
+  </div>
   </div>
 
   <footer class="footer">
@@ -139,27 +139,26 @@
               var editable = 'No Access'
             }
 
-// FOOTER EMAIL 
+            // FOOTER EMAIL 
+
             $('footer').html(
-              'Email Schedule to:  <label="emailSchedule"><name="emailSchedule"><input id="emailSchedule" type="text" value=""> <span role="button" class="email"><span class="glyphicon glyphicon-envelope"></span></span>'
-            );
-
+              '<form>Email Schedule: <input type="text" name="email"><span role="button" class="email"> <span class="glyphicon glyphicon-envelope"></span></span>'
+            ); 
             $('.email').click(function () {
-              var schedule = $('.calendar').html();
+              
+              var schedule = $('.calendar').html(); 
               $('.calendar div').each(function () {
-
-              })
-              var data = {
-                message: schedule
-              }
-              $.ajax({
-                type: 'post',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                url: '/sendmail/'
-              })
+                }) 
+                var data = {
+                  message: schedule 
+                  } 
+                  $.ajax({type: 'post',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    url: '/sendmail/' 
+                  }) 
             })
-// END FOOTER EMAIL
+            // END FOOTER EMAIL
             $('.calendar').prepend('<div id="' + value._id + '"><div class="date"> <span></span>' + date +
               '</div> <div class="course"><span></span>' + course +
               '</div>' +

@@ -60,9 +60,8 @@ let transporter = nodemailer.createTransport({
 require('./app/routes.js')(app, passport); // LOAD OUR ROUTES AND PASS IN OUR APP AND FULLY CONFIGURED PASSPORT
 
 app.post('/sendmail', function (req, res, next){
-    var emailscheduleB = getElementById("uniqueID").value;
+    
     console.log(req.body);
-    console.log(req.emailSchedule);
     let helperOptions = {
     from : '"Scheduler App" <scheduler.099@gmail.com',
     to: 'jeffreytoconnell@gmail.com', // ??? req.user.???
@@ -74,8 +73,6 @@ app.post('/sendmail', function (req, res, next){
         console.log(error);
     }
     console.log("Message Sent");
-    // console.log(info);
-    // window.location = "/profile";
 })
 })
 
